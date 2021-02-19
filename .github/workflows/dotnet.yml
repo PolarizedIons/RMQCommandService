@@ -21,5 +21,6 @@ jobs:
         with:
           PROJECT_FILE_PATH: RMQCommandService/RMQCommandService.csproj
           PACKAGE_NAME: PolarizedIons.RMQCommandService
+          VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           INCLUDE_SYMBOLS: true
