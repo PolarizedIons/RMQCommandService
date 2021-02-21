@@ -20,7 +20,7 @@ namespace RMQCommandService.Extentions
             return serviceCollection;
         }
 
-        public static IServiceCollection ConfigureRMQHandler(this IServiceCollection serviceCollection)
+        public static IServiceCollection ConfigureRMQHandler(this IServiceCollection serviceCollection, HandlerServiceType serviceType = default)
         {
             serviceCollection.AddHostedService<HandlerManager>();
 
@@ -28,7 +28,20 @@ namespace RMQCommandService.Extentions
             {
                 foreach (var iface in type.GetInterfaces().Where(i => i.GetGenericTypeDefinition() == typeof(IConsumer<,>)))
                 {
-                    serviceCollection.AddSingleton(iface, type);
+                    switch (serviceType)
+                    {
+                        case HandlerServiceType.Singleton:
+                            serviceCollection.AddSingleton(iface, type);
+                            break;
+                        case HandlerServiceType.Scoped:
+                            serviceCollection.AddScoped(iface, type);
+                            break;
+                        case HandlerServiceType.Transient:
+                            serviceCollection.AddTransient(iface, type);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(serviceType), serviceType, null);
+                    }
                 }
             }
 
