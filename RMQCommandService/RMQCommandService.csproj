@@ -4,9 +4,10 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <Nullable>enable</Nullable>
         <PackageId>PolarizedIons.RMQCommandService</PackageId>
-        <PackageVersion>0.1.0</PackageVersion>
+        <PackageVersion>0.1.1</PackageVersion>
         <Authors>PolarizedIons</Authors>
         <RepositoryUrl>https://github.com/PolarizedIons/RMQCommandService</RepositoryUrl>
+        <PackageLicenseUrl>https://github.com/PolarizedIons/RMQCommandService/blob/main/LICENCE.md</PackageLicenseUrl>
     </PropertyGroup>
 
     <ItemGroup>

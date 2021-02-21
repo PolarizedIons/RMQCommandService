@@ -16,13 +16,11 @@ namespace RMQCommandService.RabbitMq
     {
         private readonly ConnectionManager _connectionManager;
         private readonly ConcurrentDictionary<string, object> _callbacks = new ConcurrentDictionary<string, object>();
-        private readonly string _serviceId;
         private readonly string _defaultServiceId;
 
         public RMQBus(ConnectionManager connectionManager, IOptions<ConnectionDetails> connectionDetails)
         {
             _connectionManager = connectionManager;
-            _serviceId = connectionDetails.Value.ReceiveServiceId;
             _defaultServiceId = connectionDetails.Value.DefaultBusService;
         }
 
