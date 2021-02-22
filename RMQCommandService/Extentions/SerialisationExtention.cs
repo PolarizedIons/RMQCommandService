@@ -9,14 +9,16 @@ namespace RMQCommandService.Extentions
     {
         private static readonly BinaryFormatter Formatter = new BinaryFormatter();
 
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+            TypeNameHandling = TypeNameHandling.Auto,
+        };
+
         public static byte[] SerializeToBinary<T>(this T obj)
         {
-            var json = JsonConvert.SerializeObject(
-                obj,
-                new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
+            var json = JsonConvert.SerializeObject(obj, JsonSettings);
 
             using var ms = new MemoryStream();
 
@@ -30,11 +32,7 @@ namespace RMQCommandService.Extentions
 
             var obj = Formatter.Deserialize(ms) as string;
 
-            return JsonConvert.DeserializeObject<T>(obj ?? throw new InvalidOperationException(),
-                new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                }) ?? throw new InvalidOperationException();
+            return JsonConvert.DeserializeObject<T>(obj ?? throw new InvalidOperationException(), JsonSettings) ?? throw new InvalidOperationException();
         }
     }
 }
