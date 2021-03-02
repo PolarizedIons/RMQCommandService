@@ -71,11 +71,12 @@ namespace RMQCommandService.RabbitMq
                     }
                     else
                     {
-                        receivedTcs.SetException(new ExceptionReceived($"Exception Received: --> {result.Exception}"));
+                        receivedTcs.SetException(new ExceptionReceived(result.Exception ?? string.Empty));
                     }
                 }
                 catch (Exception ex)
                 {
+                    Log.Debug(ex, "Exception while receiving response {ReplyId}", replyQueueName);
                     receivedTcs.SetException(ex);
                 }
                 finally
